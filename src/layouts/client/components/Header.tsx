@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthRouterLink, ClientRouterLink } from "../../../utils/RouterLink";
+import UserDropdown from "./UserDropdown";
 
 const menuItems = [
   { key: "1", label: "Luyện tập", path: `${ClientRouterLink.Practice}` },
   { key: "2", label: "Đề thi", path: `${ClientRouterLink.Exam}` },
-  { key: "3", label: "Kết quả thi", path: "/ket-qua-thi" },
-  { key: "4", label: "Bảng xếp hạng", path: "/bang-xep-hang" },
-  { key: "5", label: "Bài viết", path: "/bai-viet" },
+  { key: "3", label: "Kết quả thi", path: `${ClientRouterLink.Result}` },
+  { key: "4", label: "Bảng xếp hạng", path: `${ClientRouterLink.Leaderboard}` },
+  { key: "5", label: "Bài viết", path: `${ClientRouterLink.Blog}` },
   { key: "6", label: "Về ABC Company", path: "/ve-abc-company" },
 ];
 
@@ -15,6 +16,8 @@ const Header: React.FC = () => {
   const location = useLocation();
   const navigation = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
+
+  const handleLogout = () => {};
 
   // Lắng nghe sự kiện scroll
   useEffect(() => {
@@ -41,7 +44,10 @@ const Header: React.FC = () => {
     >
       {/* Logo */}
       <div>
-        <button className="flex items-center flex-row">
+        <button
+          onClick={() => navigation(`${ClientRouterLink.Home}`)}
+          className="flex items-center flex-row"
+        >
           <span className="text-red-500 text-3xl font-bold">ABC</span>
           <span className="text-yellow-400 text-2xl font-semibold">QUIZ</span>
         </button>
@@ -65,16 +71,17 @@ const Header: React.FC = () => {
       </div>
 
       {/* Nút đăng nhập và thi nhanh */}
-      <div className="flex items-center space-x-2">
-        <button
+      <div className="flex items-center space-x-5">
+        <button className="bg-yellow-500 font-semibold text-white p-1 rounded hover:bg-yellow-600 hover:text-white transition-all duration-200">
+          Thi nhanh
+        </button>
+        {/* <button
           onClick={() => navigation(`/auth/${AuthRouterLink.Login}`)}
           className="bg-white font-semibold text-yellow-500 p-1 rounded hover:bg-yellow-600 hover:text-white transition-all duration-200"
         >
           Đăng nhập/Đăng ký
-        </button>
-        <button className="bg-yellow-500 font-semibold text-white p-1 rounded hover:bg-yellow-600 hover:text-white transition-all duration-200">
-          Thi nhanh
-        </button>
+        </button> */}
+        <UserDropdown username="quocdung2603" onLogout={handleLogout} />
       </div>
     </header>
   );
