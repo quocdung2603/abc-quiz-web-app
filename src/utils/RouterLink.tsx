@@ -8,6 +8,8 @@ export enum ClientRouterLink {
   Result = "/result-list",
   Leaderboard = "/leader-board",
   Blog = "/blog-list",
+  BlogDetail = "/blog-information",
+  Profile = "/profile",
 }
 
 export enum AuthRouterLink {
