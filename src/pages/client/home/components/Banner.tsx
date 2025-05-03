@@ -1,7 +1,14 @@
 import React from "react";
-import { SafetyCertificateOutlined } from "@ant-design/icons";
+import FloatButton from "../../../../components/button/FloatButton";
+import { useNavigate } from "react-router-dom";
+import { ArenaRouterLink } from "../../../../utils/RouterLink";
 
 const Banner: React.FC = () => {
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate(`/arena/${ArenaRouterLink.Arena}`);
+  };
+
   return (
     <div className="relative bg-gradient-to-tr py-52 px-5">
       {/* Nền đen mờ */}
@@ -75,10 +82,7 @@ const Banner: React.FC = () => {
         </div>
       </div>
 
-      {/* Biểu tượng lá chắn */}
-      <div className="absolute top-5 right-5 bg-gradient-to-r from-red-500 to-pink-500 rounded-full p-3">
-        <SafetyCertificateOutlined className="text-white text-2xl" />
-      </div>
+      <FloatButton onClicked={handleClick} />
     </div>
   );
 };

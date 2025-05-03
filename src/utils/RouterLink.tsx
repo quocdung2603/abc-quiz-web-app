@@ -12,6 +12,14 @@ export enum ClientRouterLink {
   Profile = "/profile",
 }
 
+export enum ArenaRouterLink {
+  Arena = "",
+  ArenaLobby = "lobby",
+  MatchStart = "match-start",
+  MatchLeaderboard = "match-leader-board",
+  MatchResult = "match-result",
+}
+
 export enum AuthRouterLink {
   Login = "login",
   Register = "register",
