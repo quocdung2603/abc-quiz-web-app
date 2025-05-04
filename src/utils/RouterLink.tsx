@@ -24,3 +24,10 @@ export enum AuthRouterLink {
   Login = "login",
   Register = "register",
 }
+
+export enum AdminRouterLink {
+  Dashboard = "dashboard",
+  Exam = "exam-management",
+  Arena = "arena-management",
+  Blog = "blog-management",
+}
