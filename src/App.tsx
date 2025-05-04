@@ -5,6 +5,8 @@ import AuthLayout from "./layouts/others/AuthLayout";
 import ClientLayout from "./layouts/client/ClientLayout";
 import ArenaLayout from "./layouts/others/ArenaLayout";
 import { ArenaRoute } from "./routes/ArenaRoute";
+import AdminLayout from "./layouts/admin/AdminLayout";
+import { AdminRoute } from "./routes/AdminRoute";
 
 export default function App() {
   return (
@@ -33,6 +35,17 @@ export default function App() {
       </Route>
       <Route path="/arena" element={<ArenaLayout />}>
         {ArenaRoute.map((route, index) => {
+          return (
+            <Route
+              key={index + 0}
+              path={route.path}
+              element={<route.element />}
+            />
+          );
+        })}
+      </Route>
+      <Route path="/admin" element={<AdminLayout />}>
+        {AdminRoute.map((route, index) => {
           return (
             <Route
               key={index + 0}
