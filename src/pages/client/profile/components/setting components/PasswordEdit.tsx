@@ -1,46 +1,63 @@
 const PasswordEdit = () => {
   return (
-    <div className="w-full flex flex-col space-x-5 my-5">
-      <span className="p-4 text-lg font-semibold border-b">
+    <form className="w-full max-w-xl mx-auto flex flex-col gap-8 bg-white/90 p-8">
+      <span className="text-xl font-bold border-b pb-2 mb-2 text-gray-800 tracking-wide">
         Thay đổi mật khẩu
       </span>
-      <div className="w-full flex flex-row space-x-5">
-        <div className="w-1/4 p-6">
-          <span className="">
-            Giữ an toàn cho tài khoản bằng cách thay đổi mật khẩu thường xuyên.
-          </span>
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
+          <label
+            className="font-semibold text-base text-gray-700"
+            htmlFor="currentPassword"
+          >
+            Mật khẩu hiện tại
+          </label>
+          <input
+            id="currentPassword"
+            type="password"
+            className="text-base px-4 py-2 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition"
+            value={""}
+            readOnly
+          />
         </div>
-        <div className="w-3/4 flex flex-col space-y-5">
-          <div className="flex flex-col mx-20 space-y-2">
-            <p className="font-semibold text-lg">Mật khẩu hiện tại</p>
-            <input
-              type="password"
-              className="text-lg px-4 py-1 w-full border rounded"
-              value={""}
-            />
-          </div>
-          <div className="flex flex-col mx-20 space-y-2">
-            <p className="font-semibold text-lg">Mật khẩu mới</p>
-            <input
-              type="password"
-              className="text-lg px-4 py-1 w-full border rounded"
-              value={""}
-            />
-          </div>
-          <div className="flex flex-col mx-20 space-y-2">
-            <p className="font-semibold text-lg">Nhập lại mật khẩu mới</p>
-            <input
-              type="password"
-              className="text-lg px-4 py-1 w-full border rounded"
-              value={""}
-            />
-          </div>
-          <button className="mx-auto my-10 w-fit p-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-            Đổi mật khẩu
-          </button>
+        <div className="flex flex-col gap-2">
+          <label
+            className="font-semibold text-base text-gray-700"
+            htmlFor="newPassword"
+          >
+            Mật khẩu mới
+          </label>
+          <input
+            id="newPassword"
+            type="password"
+            className="text-base px-4 py-2 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition"
+            value={""}
+            readOnly
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <label
+            className="font-semibold text-base text-gray-700"
+            htmlFor="confirmPassword"
+          >
+            Nhập lại mật khẩu mới
+          </label>
+          <input
+            id="confirmPassword"
+            type="password"
+            className="text-base px-4 py-2 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition"
+            value={""}
+            readOnly
+          />
         </div>
       </div>
-    </div>
+      <button
+        type="button"
+        className="mt-4 w-fit self-center px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full font-semibold shadow hover:scale-105 transition"
+      >
+        Đổi mật khẩu
+      </button>
+    </form>
   );
 };
 

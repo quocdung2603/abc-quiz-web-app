@@ -96,242 +96,205 @@ const MatchStart: React.FC = () => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-red-900 to-black min-h-screen flex flex-col p-6 text-white">
-      {/* Thanh trạng thái trên cùng */}
-      <div className="flex justify-between items-center mb-6 p-4 bg-gray-800 rounded-lg shadow-lg">
-        <h1 className="text-2xl font-bold">
+    <div className="bg-gradient-to-br from-primary to-accent min-h-screen flex flex-col p-6 text-white animate-fade-in">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row justify-between items-center mb-8 p-6 bg-gray-900 rounded-2xl shadow-neon border-b-4 border-accent animate-fade-in">
+        <h1 className="text-heading-2 font-bold tracking-wide bg-gradient-to-r from-yellow-400 to-accent bg-clip-text text-transparent drop-shadow-neon">
           Đấu trường: Kỳ thi Lập trình 2025
         </h1>
-        <div className="flex items-center space-x-4">
-          {!isSidebarVisible && (
-            <span className={timeLeft < 60 ? "animate-pulse text-red-400" : ""}>
-              Thời gian: {formatTime(timeLeft)}
-            </span>
-          )}
-          <span>Số người: 3/5</span>
-          <Button
+        <div className="flex items-center space-x-6 mt-4 md:mt-0">
+          <span
+            className={`text-lg font-semibold ${
+              timeLeft < 60 ? "animate-pulse text-danger" : "text-white"
+            }`}
+          >
+            ⏰ Thời gian: {formatTime(timeLeft)}
+          </span>
+          <span className="text-lg font-semibold">👥 Số người: 3/5</span>
+          <button
             onClick={() => setIsSidebarVisible(!isSidebarVisible)}
-            className="bg-gray-700 text-white border-none hover:bg-gray-600"
-            icon={isSidebarVisible ? <EyeInvisibleOutlined /> : <EyeOutlined />}
+            className="px-4 py-2 rounded-lg bg-secondary text-white font-semibold shadow hover:bg-primary transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent"
           >
             {isSidebarVisible ? "Ẩn bảng điều khiển" : "Hiện bảng điều khiển"}
-          </Button>
-          <Button
-            onClick={() => gotoLeaderBoard()}
-            className="bg-yellow-600 text-white border-none hover:bg-yellow-700"
+          </button>
+          <button
+            onClick={gotoLeaderBoard}
+            className="px-4 py-2 rounded-lg bg-gradient-to-r from-yellow-400 to-accent text-white font-bold shadow hover:from-accent hover:to-yellow-400 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent"
           >
             Xem bảng xếp hạng
-          </Button>
+          </button>
         </div>
       </div>
-
-      {/* Bố cục chính */}
-      <div className="flex flex-col md:flex-row gap-6">
-        {/* Vùng câu hỏi */}
+      {/* Main layout */}
+      <div className="flex flex-col md:flex-row gap-8">
+        {/* Question area */}
         <div
-          className={`flex flex-col ${
-            isSidebarVisible ? "md:w-3/4" : "flex-grow"
+          className={`flex flex-col flex-grow ${
+            isSidebarVisible ? "md:w-3/4" : "w-full"
           }`}
         >
-          <div className="flex-grow w-full">
+          <div className="bg-white rounded-2xl shadow-lg p-8 mb-8 animate-fade-in text-gray-900 relative">
             {/* Header câu hỏi */}
-            <div className="flex flex-col justify-between space-y-5 mb-6 animate-fade-in">
-              <h2 className="text-xl font-semibold">{currentData.title}</h2>
-              <div className="flex gap-2">
+            <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+              <h2 className="text-heading-3 font-bold text-primary">
+                {currentData.title}
+              </h2>
+              <div className="flex gap-2 flex-wrap">
                 {currentData.tags.map((tag, i) => (
                   <span
                     key={i}
-                    className="bg-yellow-600 text-white text-xs px-2 py-1 rounded"
+                    className="bg-gradient-to-r from-yellow-400 to-accent text-white text-xs px-3 py-1 rounded-full font-semibold shadow-neon"
                   >
                     {tag}
                   </span>
                 ))}
               </div>
-              <div className="w-full px-10 border-t border-yellow-500"></div>
             </div>
-
-            {/* Câu hỏi và đáp án */}
-            <div className="mt-6 mx-20 animate-fade-in">
-              <p className="text-lg font-medium">{currentData.content}</p>
-              <div className="mt-4 flex flex-col gap-3 w-2/3">
-                {currentData.options.map((option, idx) => {
-                  const isSelected = selectedAnswer === idx + 1;
-                  return (
-                    <div
-                      key={idx}
-                      onClick={() => handleAnswerChange(idx + 1)}
-                      className={`cursor-pointer p-3 rounded border transition-all duration-300 transform ${
-                        isSelected
-                          ? "bg-yellow-400 text-black border-yellow-500 animate-pulse scale-105"
-                          : "bg-gray-800 text-gray-300 border-gray-600 hover:bg-gray-700 hover:border-yellow-500 hover:scale-102"
-                      }`}
-                    >
-                      {option}
-                    </div>
-                  );
-                })}
-              </div>
+            <div className="border-t border-accent mb-6"></div>
+            {/* Nội dung câu hỏi */}
+            <p className="text-lg font-medium mb-6">{currentData.content}</p>
+            {/* Đáp án */}
+            <div className="flex flex-col gap-4 w-full md:w-2/3 mx-auto">
+              {currentData.options.map((option, idx) => {
+                const isSelected = selectedAnswer === idx + 1;
+                return (
+                  <div
+                    key={idx}
+                    onClick={() => handleAnswerChange(idx + 1)}
+                    className={`cursor-pointer p-4 rounded-xl border-2 transition-all duration-300 font-semibold text-lg shadow-md ${
+                      isSelected
+                        ? "bg-gradient-to-r from-yellow-400 to-accent text-white border-yellow-400 scale-105 animate-pulse"
+                        : "bg-gray-100 text-gray-800 border-gray-300 hover:bg-accent hover:text-white hover:border-accent hover:scale-102"
+                    }`}
+                  >
+                    {option}
+                  </div>
+                );
+              })}
             </div>
-
             {/* Nút hành động */}
-            <div className="w-2/3 flex justify-between items-center bg-gray-900 px-4 py-3 rounded-lg mt-6 absolute bottom-10 left-20">
-              <Button
+            <div className="w-full md:w-2/3 flex justify-between items-center bg-gray-50 px-4 py-3 rounded-xl mt-8 absolute left-0 right-0 mx-auto bottom-0 md:static">
+              <button
                 onClick={() => {
                   currentQuestion > 1 && goToQuestion(currentQuestion - 1);
                 }}
-                className="border-yellow-500 text-yellow-300 bg-gray-900 hover:border-yellow-400 hover:text-yellow-200"
+                className="px-6 py-2 rounded-lg bg-secondary text-white font-semibold shadow hover:bg-primary transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent"
               >
                 Câu trước
-              </Button>
+              </button>
               <div className="flex gap-2">
-                <Button
+                <button
                   onClick={() => setIsErrorModalOpen(true)}
-                  className="bg-red-600 text-white border-none hover:bg-red-700"
+                  className="px-4 py-2 rounded-lg bg-danger text-white font-semibold shadow hover:bg-red-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-danger"
                 >
                   Báo lỗi
-                </Button>
-                <Button
+                </button>
+                <button
                   onClick={() => toggleFlagQuestion(currentData.id)}
-                  className={`border-none ${
+                  className={`px-4 py-2 rounded-lg font-semibold shadow focus:outline-none focus:ring-2 focus:ring-accent ${
                     flaggedQuestions.includes(currentData.id)
-                      ? "bg-red-500 text-white animate-blink"
-                      : "bg-yellow-600 text-white animate-blink"
-                  } hover:bg-red-700`}
+                      ? "bg-danger text-white animate-blink"
+                      : "bg-accent text-white animate-blink"
+                  }`}
                 >
                   {flaggedQuestions.includes(currentData.id)
                     ? "Bỏ đánh dấu"
                     : "Đánh dấu"}
-                </Button>
-                <Button
-                  className="bg-green-600 text-white border-none hover:bg-green-700"
+                </button>
+                <button
+                  className="px-4 py-2 rounded-lg bg-success text-white font-semibold shadow hover:bg-green-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-success"
                   onClick={nextQuestion}
                   disabled={currentQuestion === mockData.length}
                 >
                   Tiếp theo
-                </Button>
+                </button>
               </div>
-              <Button
+              <button
                 onClick={() => goToQuestion(currentQuestion + 1)}
-                className="border-yellow-500 text-yellow-300 bg-gray-900 hover:border-yellow-400 hover:text-yellow-200"
+                className="px-6 py-2 rounded-lg bg-secondary text-white font-semibold shadow hover:bg-primary transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent"
               >
                 Câu sau
-              </Button>
+              </button>
             </div>
           </div>
         </div>
-
-        {/* Vùng thông tin bên phải (list câu hỏi và thời gian) */}
+        {/* Sidebar */}
         <div
           className={`md:w-1/4 transition-all duration-500 ease-in-out ${
             isSidebarVisible ? "" : "hidden"
           }`}
         >
           {isSidebarVisible && (
-            <>
+            <div className="flex flex-col items-center gap-8 bg-white rounded-2xl shadow-lg p-6 animate-fade-in text-gray-900">
               {/* Đồng hồ */}
-              <div className="flex flex-col items-center space-y-10">
-                <div className="flex flex-col mr-auto space-y-4">
-                  <p className="text-gray-300 text-sm">Loại câu hỏi</p>
-                  <div className="w-full flex flex-row space-x-2">
-                    {currentData.tags.map((tag, i) => (
-                      <span
-                        key={i}
-                        className="bg-yellow-600 text-white text-xs px-2 py-1 rounded"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                <p className="text-gray-300 text-sm mr-auto">
-                  Thời gian làm bài
-                </p>
+              <div className="flex flex-col items-center gap-4">
+                <span className="text-sm text-gray-500">Thời gian làm bài</span>
                 <div
-                  className={`w-32 h-32 flex items-center justify-center rounded-full border-4 border-yellow-500 ${
-                    timeLeft < 60 ? "animate-pulse border-red-500" : ""
-                  }`}
+                  className={`w-32 h-32 flex items-center justify-center rounded-full border-8 border-accent bg-gray-50 text-3xl font-bold text-primary animate-pulse`}
                 >
-                  <span className="text-2xl font-semibold text-white">
-                    {formatTime(timeLeft)}
-                  </span>
+                  {formatTime(timeLeft)}
                 </div>
               </div>
-
-              {/* Số câu hỏi và lưới */}
-              <div className="mt-6">
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-300 text-sm">Số câu hỏi</span>
-                  <span className="text-white font-semibold">
-                    {currentQuestion}/{mockData.length}
-                  </span>
-                </div>
-                <div className="mt-4 grid grid-cols-5 gap-2">
-                  {answers.map((answer, index) => {
-                    const isCurrent = index + 1 === currentQuestion;
-                    const isAnswered = answer !== null;
-                    const isFlagged = flaggedQuestions.includes(index + 1);
-                    return (
-                      <div
-                        key={index}
-                        className={`w-8 h-8 flex items-center justify-center rounded cursor-pointer transition-all duration-300 transform hover:scale-110 ${
-                          isCurrent
-                            ? "bg-yellow-500 text-black"
-                            : isFlagged
-                            ? "bg-red-500 text-white animate-blink"
-                            : isAnswered
-                            ? "bg-green-500 text-white"
-                            : "bg-gray-700 text-white"
-                        }`}
-                        onClick={() => goToQuestion(index + 1)}
-                      >
-                        {isFlagged ? <FlagOutlined /> : index + 1}
-                      </div>
-                    );
-                  })}
+              {/* Danh sách câu hỏi */}
+              <div className="w-full">
+                <span className="block text-sm text-gray-500 mb-2">
+                  Danh sách câu hỏi
+                </span>
+                <div className="grid grid-cols-5 gap-2">
+                  {mockData.map((q, idx) => (
+                    <button
+                      key={q.id}
+                      onClick={() => goToQuestion(idx + 1)}
+                      className={`w-10 h-10 rounded-full font-bold text-base shadow-md border-2 transition-all duration-200 ${
+                        answers[idx] !== null
+                          ? "bg-success text-white border-success"
+                          : flaggedQuestions.includes(q.id)
+                          ? "bg-danger text-white border-danger animate-blink"
+                          : "bg-gray-200 text-gray-700 border-gray-300 hover:bg-accent hover:text-white hover:border-accent"
+                      } ${
+                        currentQuestion === idx + 1 ? "ring-4 ring-accent" : ""
+                      }`}
+                    >
+                      {idx + 1}
+                    </button>
+                  ))}
                 </div>
               </div>
-
-              {/* Nút kết thúc */}
-              <div className="mt-6">
-                <Button className="w-full bg-red-600 text-white hover:bg-red-700">
-                  Kết thúc vòng
-                </Button>
-              </div>
-            </>
+            </div>
           )}
         </div>
-
-        {/* Modal báo lỗi */}
-        <Modal
-          title="Gửi phản hồi về câu hỏi"
-          open={isErrorModalOpen}
-          onCancel={() => setIsErrorModalOpen(false)}
-          onOk={() => {
-            console.log(selectedErrors, errorDetails);
-            setIsErrorModalOpen(false);
-          }}
-          okText="Gửi"
-          cancelText="Hủy"
-        >
-          <Checkbox.Group
-            onChange={(checked) => setSelectedErrors(checked as string[])}
-            className="flex flex-col gap-2"
-          >
-            <Checkbox value="Lỗi chính tả">Lỗi chính tả</Checkbox>
-            <Checkbox value="Sai nội dung">Sai nội dung</Checkbox>
-            <Checkbox value="Sai hình ảnh">Sai hình ảnh</Checkbox>
-            <Checkbox value="Sai câu trả lời">Sai câu trả lời</Checkbox>
-            <Checkbox value="Sai đáp án">Sai đáp án</Checkbox>
-            <Checkbox value="Lỗi khác">Lỗi khác</Checkbox>
-          </Checkbox.Group>
-          <Input.TextArea
-            placeholder="Chi tiết lỗi..."
-            className="mt-3"
-            rows={4}
-            onChange={(e) => setErrorDetails(e.target.value)}
-          />
-        </Modal>
       </div>
+
+      {/* Modal báo lỗi */}
+      <Modal
+        title="Gửi phản hồi về câu hỏi"
+        open={isErrorModalOpen}
+        onCancel={() => setIsErrorModalOpen(false)}
+        onOk={() => {
+          console.log(selectedErrors, errorDetails);
+          setIsErrorModalOpen(false);
+        }}
+        okText="Gửi"
+        cancelText="Hủy"
+      >
+        <Checkbox.Group
+          onChange={(checked) => setSelectedErrors(checked as string[])}
+          className="flex flex-col gap-2"
+        >
+          <Checkbox value="Lỗi chính tả">Lỗi chính tả</Checkbox>
+          <Checkbox value="Sai nội dung">Sai nội dung</Checkbox>
+          <Checkbox value="Sai hình ảnh">Sai hình ảnh</Checkbox>
+          <Checkbox value="Sai câu trả lời">Sai câu trả lời</Checkbox>
+          <Checkbox value="Sai đáp án">Sai đáp án</Checkbox>
+          <Checkbox value="Lỗi khác">Lỗi khác</Checkbox>
+        </Checkbox.Group>
+        <Input.TextArea
+          placeholder="Chi tiết lỗi..."
+          className="mt-3"
+          rows={4}
+          onChange={(e) => setErrorDetails(e.target.value)}
+        />
+      </Modal>
 
       {/* CSS Animation */}
       <style>

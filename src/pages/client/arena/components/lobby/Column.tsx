@@ -1,3 +1,5 @@
+import { UserOutlined, CrownOutlined } from "@ant-design/icons";
+import { Tag, Tooltip } from "antd";
 import { Button, TableColumnsType } from "antd";
 
 const Column = (showKickModal: (id: string) => void): TableColumnsType<any> => [
@@ -22,7 +24,20 @@ const Column = (showKickModal: (id: string) => void): TableColumnsType<any> => [
     dataIndex: "role",
     align: "center",
     render(value) {
-      return <p>{value}</p>;
+      const isHost = value === "Người tổ chức";
+      return (
+        <Tag
+          color={isHost ? "warning" : "default"}
+          className={`px-3 py-1 text-base font-semibold rounded-full shadow flex items-center gap-1 ${
+            isHost
+              ? "bg-yellow-100 text-yellow-700"
+              : "bg-gray-100 text-gray-700"
+          }`}
+          icon={isHost ? <CrownOutlined /> : <UserOutlined />}
+        >
+          {value}
+        </Tag>
+      );
     },
   },
   {
@@ -31,15 +46,16 @@ const Column = (showKickModal: (id: string) => void): TableColumnsType<any> => [
     align: "center",
     render(_, record) {
       return (
-        <div className="flex flex-row justify-center space-x-3">
-          <Button
+        <Tooltip title="Đuổi khỏi phòng">
+          <button
             onClick={() => {
               showKickModal(record.id.toString());
             }}
+            className="px-4 py-2 rounded-lg bg-danger text-white font-semibold shadow hover:bg-red-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-danger"
           >
             Đuổi
-          </Button>
-        </div>
+          </button>
+        </Tooltip>
       );
     },
   },

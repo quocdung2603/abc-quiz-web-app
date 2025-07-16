@@ -29,3 +29,24 @@
 .slick-dots li.slick-active button:before {
   color: #fadb14 !important;
 }
+
+/* Loại bỏ focus ring xanh của Ant Design Pagination */
+.no-ant-pagination-style .ant-pagination-item:focus,
+.no-ant-pagination-style .ant-pagination-item-active:focus,
+.no-ant-pagination-style .ant-pagination-item-active,
+.no-ant-pagination-style .ant-pagination-item:focus-visible,
+.no-ant-pagination-style .ant-pagination-item-active:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  background: none !important;
+}
+.no-ant-pagination-style .ant-pagination-item:focus::after,
+.no-ant-pagination-style .ant-pagination-item-active:focus::after,
+.no-ant-pagination-style .ant-pagination-item-active::after {
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  background: none !important;
+  content: none !important;
+}

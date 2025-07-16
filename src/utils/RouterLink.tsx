@@ -10,6 +10,7 @@ export enum ClientRouterLink {
   Blog = "/blog-list",
   BlogDetail = "/blog-information",
   Profile = "/profile",
+  Interview = "/interview-practice", // Thêm đường dẫn cho trang Ôn phỏng vấn
 }
 
 export enum ArenaRouterLink {

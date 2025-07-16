@@ -56,37 +56,38 @@ const quizData: QuizItem[] = [
 
 const RandomQuiz: React.FC = () => {
   return (
-    <div className="bg-white py-16 px-5">
+    <div className="bg-white py-20 px-5 animate-fade-in">
       <div className="max-w-7xl mx-auto text-center">
         {/* Tiêu đề và mô tả */}
-        <h2 className="text-3xl md:text-4xl font-bold text-black">
+        <h2 className="text-3xl md:text-4xl font-extrabold text-primary mb-4 drop-shadow-neon">
           Trắc nghiệm ngẫu nhiên
         </h2>
-        <p className="mt-4 text-lg text-gray-500 max-w-2xl mx-auto">
+        <p className="mt-2 text-lg text-gray-500 max-w-2xl mx-auto">
           Đề thi được tạo ngẫu nhiên từ kho bài hội theo danh mục bạn lựa chọn
         </p>
-
         {/* Danh sách đề thi */}
-        <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-6">
+        <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
           {quizData.map((item, index) => (
             <div
-              key={index + 0}
-              className="flex items-center justify-between p-4 bg-gray-50 rounded-lg shadow-sm hover:shadow-md transition-all duration-200"
+              key={index}
+              className="flex items-center justify-between p-6 bg-white rounded-2xl shadow-neon border-2 border-accent hover:shadow-lg hover:scale-105 transition-all duration-300 animate-fade-in-up"
             >
-              <div className="flex items-center">
+              <div className="flex items-center gap-4">
                 <img
                   src={item.icon}
                   alt={item.title}
-                  className="w-10 h-10 mr-4"
+                  className="w-14 h-14 rounded-full border-4 border-accent shadow-md object-cover"
                 />
                 <div className="text-left">
-                  <h3 className="text-base font-semibold text-black">
+                  <h3 className="text-lg font-bold text-primary line-clamp-1">
                     {item.title}
                   </h3>
-                  <p className="text-sm text-gray-500">{item.questions}</p>
+                  <p className="text-sm text-accent font-semibold">
+                    {item.questions}
+                  </p>
                 </div>
               </div>
-              <button className="bg-yellow-400 text-black font-semibold px-4 py-2 rounded-lg hover:bg-yellow-500 transition-all duration-200">
+              <button className="bg-gradient-to-r from-primary to-accent text-white font-bold px-6 py-2 rounded-full shadow hover:from-accent hover:to-primary transition-all duration-200">
                 Bắt đầu
               </button>
             </div>

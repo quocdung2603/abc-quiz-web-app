@@ -1,4 +1,5 @@
-import { Button, TableColumnsType } from "antd";
+import { Button, TableColumnsType, Tag, Tooltip } from "antd";
+import { UsergroupAddOutlined, FieldTimeOutlined, AppstoreOutlined, QuestionCircleOutlined, CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 
 const Column = (
   showViewModal: (isOpen: boolean, id: string) => void,
@@ -17,7 +18,12 @@ const Column = (
     dataIndex: "type",
     align: "center",
     render(value) {
-      return <p>{value}</p>;
+      return (
+        <span className="flex items-center justify-center gap-1">
+          <AppstoreOutlined className="text-accent" />
+          <span>{value}</span>
+        </span>
+      );
     },
   },
   {
@@ -25,7 +31,12 @@ const Column = (
     dataIndex: "topic",
     align: "center",
     render(value) {
-      return <p>{value}</p>;
+      return (
+        <span className="flex items-center justify-center gap-1">
+          <QuestionCircleOutlined className="text-primary" />
+          <span>{value}</span>
+        </span>
+      );
     },
   },
   {
@@ -33,7 +44,12 @@ const Column = (
     dataIndex: "quantity",
     align: "center",
     render(value) {
-      return <p>{value}</p>;
+      return (
+        <span className="flex items-center justify-center gap-1">
+          <UsergroupAddOutlined className="text-secondary" />
+          <span>{value}</span>
+        </span>
+      );
     },
   },
   {
@@ -41,7 +57,12 @@ const Column = (
     dataIndex: "numOfQuest",
     align: "center",
     render(value) {
-      return <p>{value}</p>;
+      return (
+        <span className="flex items-center justify-center gap-1">
+          <QuestionCircleOutlined className="text-accent" />
+          <span>{value}</span>
+        </span>
+      );
     },
   },
   {
@@ -49,7 +70,12 @@ const Column = (
     dataIndex: "duration",
     align: "center",
     render(value) {
-      return <p>{value}</p>;
+      return (
+        <span className="flex items-center justify-center gap-1">
+          <FieldTimeOutlined className="text-primary" />
+          <span>{value}</span>
+        </span>
+      );
     },
   },
   {
@@ -57,7 +83,16 @@ const Column = (
     dataIndex: "status",
     align: "center",
     render(value) {
-      return <p>{value}</p>;
+      const isOpen = value === "Đang mở";
+      return (
+        <Tag
+          color={isOpen ? "success" : "error"}
+          className={`px-3 py-1 text-base font-semibold rounded-full shadow ${isOpen ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}
+          icon={isOpen ? <CheckCircleOutlined /> : <CloseCircleOutlined />}
+        >
+          {value}
+        </Tag>
+      );
     },
   },
   {
@@ -67,20 +102,26 @@ const Column = (
     render(_, record) {
       return (
         <div className="flex flex-row justify-center space-x-3">
-          <Button
-            onClick={() => {
-              showViewModal(true, record.id.toString());
-            }}
-          >
-            Xem chi tiết
-          </Button>
-          <Button
-            onClick={() => {
-              showConfirmJoinModal(record.id.toString());
-            }}
-          >
-            Tham gia
-          </Button>
+          <Tooltip title="Xem chi tiết">
+            <button
+              onClick={() => {
+                showViewModal(true, record.id.toString());
+              }}
+              className="px-4 py-2 rounded-lg bg-primary text-white font-semibold shadow hover:bg-accent transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent"
+            >
+              Xem chi tiết
+            </button>
+          </Tooltip>
+          <Tooltip title="Tham gia">
+            <button
+              onClick={() => {
+                showConfirmJoinModal(record.id.toString());
+              }}
+              className="px-4 py-2 rounded-lg bg-accent text-white font-semibold shadow hover:bg-primary transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              Tham gia
+            </button>
+          </Tooltip>
         </div>
       );
     },

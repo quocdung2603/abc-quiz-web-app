@@ -164,56 +164,72 @@ const ExamPage: React.FC = () => {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen py-10 px-5">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-yellow-50 py-10 px-2">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-8">
         {/* Sidebar: ExamFilter */}
         <div className="md:w-1/4">
           <ExamFilter onFilter={handleFilter} />
         </div>
-
-        {/* Nội dung chính */}
-        <div className="md:w-3/4">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-black">
-              Hiện tại {startIndex + 1}-{startIndex + displayedQuizzes}/
-              {totalQuizzes} kết quả
-            </h2>
-            <Select
-              defaultValue="Mới nhất"
-              className="w-48"
-              dropdownStyle={{ minWidth: "200px" }}
-            >
-              <Option value="Mới nhất">Mới nhất</Option>
-              <Option value="Cũ nhất">Cũ nhất</Option>
-              <Option value="Phổ biến nhất">Phổ biến nhất</Option>
-            </Select>
-          </div>
-
-          {/* Danh sách đề thi */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {currentQuizData.map((quiz, index) => (
-              <ExamCardItem
-                key={index + 0}
-                image={quiz.image}
-                title={quiz.title}
-                questions={quiz.questions}
-                time={quiz.time}
-                views={quiz.views}
-                category={quiz.category}
+        {/* Main content */}
+        <div className="md:w-3/4 w-full">
+          <div className="bg-white/90 rounded-3xl shadow-2xl border border-gray-100 p-6 md:p-10">
+            <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-8 gap-4">
+              <h2 className="text-2xl md:text-3xl font-extrabold bg-gradient-to-r from-blue-500 via-purple-500 to-yellow-400 bg-clip-text text-transparent drop-shadow">
+                Hiện tại {startIndex + 1}-{startIndex + displayedQuizzes}/
+                {totalQuizzes} kết quả
+              </h2>
+              <Select
+                defaultValue="Mới nhất"
+                className="w-48"
+                dropdownStyle={{ minWidth: "200px" }}
+              >
+                <Option value="Mới nhất">Mới nhất</Option>
+                <Option value="Cũ nhất">Cũ nhất</Option>
+                <Option value="Phổ biến nhất">Phổ biến nhất</Option>
+              </Select>
+            </div>
+            {/* Danh sách đề thi */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {currentQuizData.map((quiz, index) => (
+                <ExamCardItem
+                  key={index}
+                  image={quiz.image}
+                  title={quiz.title}
+                  questions={quiz.questions}
+                  time={quiz.time}
+                  views={quiz.views}
+                  category={quiz.category}
+                />
+              ))}
+            </div>
+            {/* Pagination */}
+            <div className="mt-10 flex justify-center">
+              <Pagination
+                current={currentPage}
+                total={totalQuizzes}
+                pageSize={itemsPerPage}
+                onChange={handlePageChange}
+                showSizeChanger={false}
+                className="custom-pagination no-ant-pagination-style"
+                itemRender={(page, type, originalElement) => {
+                  if (type === "page") {
+                    return (
+                      <button
+                        className={`w-10 h-10 flex items-center justify-center rounded-full font-bold text-lg transition-all duration-150 shadow-md border-2 mx-1 ${
+                          currentPage === page
+                            ? "bg-gradient-to-tr from-blue-400 to-yellow-400 text-white border-yellow-400 scale-110"
+                            : "bg-white text-gray-700 border-gray-200 hover:bg-blue-50 hover:text-blue-600"
+                        } focus:outline-none`}
+                      >
+                        {page}
+                      </button>
+                    );
+                  }
+                  // Giữ lại prev/next mặc định
+                  return originalElement;
+                }}
               />
-            ))}
-          </div>
-
-          {/* Phân trang */}
-          <div className="mt-8 flex justify-center">
-            <Pagination
-              current={currentPage}
-              total={totalQuizzes}
-              pageSize={itemsPerPage}
-              onChange={handlePageChange}
-              showSizeChanger={false}
-              className="custom-pagination"
-            />
+            </div>
           </div>
         </div>
       </div>

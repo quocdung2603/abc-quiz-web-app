@@ -34,25 +34,30 @@ const LeaderBoardPage = () => {
   const paginatedUsers = rest.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   return (
-    <div className="p-6 max-w-7xl mx-auto text-black">
-      <h1 className="text-2xl font-bold mb-6 text-center">Bảng xếp hạng</h1>
-      <FilterBar filter={filter} setFilter={setFilter} />
-      <TopThreePodium users={topThree} />
-      <RankingList users={paginatedUsers} />
-      <div className="flex justify-center mt-4 gap-2">
-        {Array.from({ length: totalPages }).map((_, idx) => (
-          <button
-            key={idx + 0}
-            className={`px-3 py-1 rounded ${
-              currentPage === idx + 1
-                ? "bg-yellow-400 text-white"
-                : "bg-gray-200"
-            }`}
-            onClick={() => setCurrentPage(idx + 1)}
-          >
-            {idx + 1}
-          </button>
-        ))}
+    <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-purple-50 to-blue-100 py-10 px-2">
+      <div className="max-w-4xl mx-auto bg-white/90 rounded-3xl shadow-2xl p-6 md:p-10 border border-gray-100">
+        <h1 className="text-3xl md:text-4xl font-extrabold text-center mb-8 bg-gradient-to-r from-yellow-400 via-purple-400 to-blue-500 bg-clip-text text-transparent drop-shadow">
+          Bảng xếp hạng
+        </h1>
+        <FilterBar filter={filter} setFilter={setFilter} />
+        <TopThreePodium users={topThree} />
+        <RankingList users={paginatedUsers} />
+        <div className="flex justify-center mt-8 gap-2">
+          {Array.from({ length: totalPages }).map((_, idx) => (
+            <button
+              key={idx}
+              className={`w-10 h-10 flex items-center justify-center rounded-full font-bold text-lg transition-all duration-150 shadow-md border-2 focus:outline-none ${
+                currentPage === idx + 1
+                  ? "bg-gradient-to-tr from-yellow-400 to-purple-400 text-white border-yellow-400 scale-110"
+                  : "bg-white text-gray-700 border-gray-200 hover:bg-blue-50 hover:text-blue-600"
+              }`}
+              onClick={() => setCurrentPage(idx + 1)}
+              aria-label={`Trang ${idx + 1}`}
+            >
+              {idx + 1}
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );

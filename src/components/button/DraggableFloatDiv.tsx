@@ -33,7 +33,7 @@ const DraggableFloatDiv: React.FC<DraggableFloatDivProps> = ({ onClick }) => {
   return (
     <div
       ref={divRef}
-      className="absolute bg-gray-800 text-white p-4 rounded-lg shadow-lg cursor-move transition-all duration-300 hover:shadow-xl"
+      className="absolute bg-gradient-to-br from-blue-500 via-purple-500 to-yellow-400 text-white p-6 rounded-2xl shadow-2xl cursor-move transition-all duration-300 hover:shadow-3xl hover:scale-105 border-2 border-white/60 select-none min-w-[220px] min-h-[100px] flex flex-col items-center justify-center"
       style={{ left: `${position.x}px`, top: `${position.y}px` }}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
@@ -41,8 +41,11 @@ const DraggableFloatDiv: React.FC<DraggableFloatDivProps> = ({ onClick }) => {
       onMouseLeave={handleMouseUp}
       onClick={onClick}
     >
-      <h3 className="text-lg font-semibold mb-2">Bảng xếp hạng</h3>
-      <p>Nhấn để xem chi tiết</p>
+      <div className="w-10 h-1 rounded-full bg-white/60 mb-3" />
+      <h3 className="text-xl font-extrabold mb-1 drop-shadow">Bảng xếp hạng</h3>
+      <p className="text-base font-medium text-white/90">
+        Nhấn để xem chi tiết
+      </p>
     </div>
   );
 };
