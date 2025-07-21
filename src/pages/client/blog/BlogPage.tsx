@@ -38,10 +38,11 @@ const blogData = {
 
 const BlogPage: React.FC = () => {
   return (
-    <div className="flex flex-col max-w-7xl mx-auto space-y-10 my-10">
-      <div className="w-full flex flex-row space-x-5 items-center">
-        {/* BANNER - giữ tỉ lệ khung hình */}
-        <div className="w-2/3 border">
+    <div className="flex flex-col max-w-7xl mx-auto space-y-14 py-10 px-4 animate-fade-in">
+      {/* Banner + bài viết nhỏ */}
+      <div className="w-full flex flex-col md:flex-row gap-8 items-stretch">
+        {/* Banner lớn */}
+        <div className="md:w-2/3 w-full">
           <BlogBanner
             author="ABC"
             imageUrl="https://picsum.photos/800/400"
@@ -51,29 +52,34 @@ const BlogPage: React.FC = () => {
             title="Lên trình C++ cùng ABCquiz"
           />
         </div>
-
-        {/* DANH SÁCH BÀI VIẾT NHỎ */}
-        <div className="w-1/3 flex flex-col justify-between space-y-2">
+        {/* Danh sách bài viết nhỏ */}
+        <div className="md:w-1/3 w-full flex flex-col gap-4">
           <BlogItemSm />
           <BlogItemSm />
           <BlogItemSm />
           <BlogItemSm />
         </div>
       </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {blogData.posts.map((post, index) => (
-          <BlogItem
-            key={index}
-            title={post.title}
-            content={post.content}
-            author={post.author}
-            date={post.date}
-            comments={post.comments}
-            image={post.image}
-          />
-        ))}
+      {/* Grid bài viết nổi bật */}
+      <div>
+        <h2 className="text-heading-2 font-bold text-primary mb-6">
+          Bài viết nổi bật
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {blogData.posts.map((post, index) => (
+            <BlogItem
+              key={index}
+              title={post.title}
+              content={post.content}
+              author={post.author}
+              date={post.date}
+              comments={post.comments}
+              image={post.image}
+            />
+          ))}
+        </div>
       </div>
+      {/* Tin tức mới nhất */}
       <BlogLatest
         date="21/2/2002"
         title="Học lập trình cùng ABCQuiz"
@@ -81,12 +87,12 @@ const BlogPage: React.FC = () => {
         author="Abc"
         content="Việc học lập trình đòi hỏi phải luyện tập mỗi ngày. Lập trình càng khó, chúng tôi càng thích. Trong các bài kiểm tra lập trình sẽ giúp bạn nâng cao kỹ năng lập trình của KQUIZ là..."
       />
-
-      <div className="w-full">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">
+      {/* Tin tức khác */}
+      <div>
+        <h2 className="text-heading-2 font-bold text-primary mb-6 mt-10">
           Tin tức khác
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {blogData.posts.map((post, index) => (
             <BlogItem
               key={index}

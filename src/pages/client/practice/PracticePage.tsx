@@ -48,37 +48,36 @@ const PracticePage: React.FC = () => {
 
   return (
     <div
-      className="bg-white py-40 px-5 bg-cover bg-center min-h-[600px] relative"
+      className="min-h-screen py-10 px-5 bg-cover bg-center relative"
       style={{
         backgroundImage: `url('https://picsum.photos/1200/900?random=11')`,
       }}
     >
-      {/* Overlay để làm mờ nền và tăng độ tương phản với nội dung */}
-      <div className="absolute inset-0 bg-black opacity-30"></div>
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black/40"></div>
 
       <div className="max-w-7xl mx-auto relative z-10">
-        {/* Nội dung chính */}
-        <div className="md:w-2/3">
-          <h2 className="text-3xl md:text-5xl font-bold text-white leading-tight">
+        <div className="w-full md:w-2/3">
+          <h2 className="text-2xl md:text-3xl font-bold text-white leading-tight mb-2">
             Khám phá ngân hàng đề thi trắc nghiệm{" "}
-            <span className="text-orange-500">ngẫu nhiên ABCquiz</span>
+            <span className="text-accent">ngẫu nhiên ABCquiz</span>
           </h2>
-          <p className="mt-4 text-lg text-gray-200 max-w-3xl">
+          <p className="mt-2 text-base text-gray-200 max-w-2xl">
             Không chỉ đơn trắc nghiệm một cách nhàm chán, đến với ABCquiz bạn sẽ
-            không doan được câu hỏi nào đang chờ anh sao? Đề sẽ không phải lựa
-            chọn hay khi thử nghiệm đầu Học thực sự để an sao?
+            không đoán được câu hỏi nào đang chờ! Đề sẽ không phải lựa chọn hay
+            khi thử nghiệm đầu. Học thực sự để an tâm!
           </p>
 
-          {/* Thanh tìm kiếm */}
-          <div className="flex flex-row mt-8 max-w-6xl rounded p-2 bg-white space-x-5">
-            <div className="w-2/6 flex flex-row items-center space-x-2 p-1">
-              <SearchOutlined />
+          {/* Thanh filter */}
+          <div className="flex flex-wrap md:flex-nowrap items-center mt-8 gap-3 bg-white/90 rounded-lg shadow p-3">
+            <div className="flex items-center gap-2 w-full md:w-1/4">
+              <SearchOutlined className="text-primary" />
               <Select
                 showSearch
                 mode="multiple"
                 placeholder="Tên môn học, ngôn ngữ"
                 optionFilterProp="label"
-                className="w-full outline-none"
+                className="w-full outline-none text-sm"
                 filterSort={(optionA, optionB) =>
                   (optionA?.label ?? "")
                     .toLowerCase()
@@ -86,16 +85,18 @@ const PracticePage: React.FC = () => {
                 }
                 options={TopicOption}
                 onChange={(value) => setTopic(value)}
+                value={topic}
               />
             </div>
-            <div className="w-2/6 flex flex-row items-center space-x-2 p-1">
-              <DragOutlined />
+            <div className="flex items-center gap-2 w-full md:w-1/4">
+              <DragOutlined className="text-primary" />
               <Select
                 showSearch
                 placeholder="Số lượng câu hỏi"
                 optionFilterProp="label"
-                className="w-full outline-none"
+                className="w-full outline-none text-sm"
                 defaultValue={"10"}
+                value={numberQuest}
                 filterSort={(optionA, optionB) =>
                   (optionA?.label ?? "")
                     .toLowerCase()
@@ -105,14 +106,15 @@ const PracticePage: React.FC = () => {
                 onChange={(value) => setNumberQuest(value)}
               />
             </div>
-            <div className="w-2/6 flex flex-row items-center space-x-2 p-1">
-              <ClockCircleOutlined />
+            <div className="flex items-center gap-2 w-full md:w-1/4">
+              <ClockCircleOutlined className="text-primary" />
               <Select
                 showSearch
                 placeholder="Thời gian làm bài"
                 optionFilterProp="label"
                 defaultValue={"10"}
-                className="w-full outline-none"
+                value={time}
+                className="w-full outline-none text-sm"
                 filterSort={(optionA, optionB) =>
                   (optionA?.label ?? "")
                     .toLowerCase()
@@ -123,29 +125,29 @@ const PracticePage: React.FC = () => {
               />
             </div>
             <button
-              onClick={() => handleCreateExam()}
-              className="w-1/6 bg-yellow-500 font-semibold text-white p-1 rounded hover:bg-yellow-600 hover:text-white transition-all duration-200"
+              onClick={handleCreateExam}
+              className="w-full md:w-auto bg-gradient-to-r from-primary to-accent font-semibold text-white px-6 py-2 rounded-lg shadow hover:scale-105 hover:shadow-lg transition-all text-sm"
             >
               Thi thử ngay
             </button>
           </div>
 
           {/* Lựa chọn của bạn */}
-          <div className="mt-6 p-4 bg-white bg-opacity-90 rounded-lg shadow-sm max-w-2xl">
-            <h3 className="text-lg font-semibold text-black mb-3">
+          <div className="mt-6 p-4 bg-white/90 rounded-lg shadow max-w-2xl">
+            <h3 className="text-base font-semibold text-black mb-3">
               Lựa chọn của bạn
             </h3>
-            <div className="flex flex-row items-center gap-4 text-sm">
-              <span className="text-gray-600 bg-gray-300 p-2 rounded-md">
+            <div className="flex flex-wrap items-center gap-2 text-sm">
+              <span className="text-gray-700 border border-gray-300 bg-gray-100 px-3 py-1 rounded-full">
                 Số lượng: <span className="font-medium">{numberQuest} câu</span>
               </span>
-              <span className="text-gray-600 bg-gray-300 p-2 rounded-md">
+              <span className="text-gray-700 border border-gray-300 bg-gray-100 px-3 py-1 rounded-full">
                 Thời gian: <span className="font-medium">{time} phút</span>
               </span>
               {topic.map((item, index) => (
                 <span
-                  key={index + 0}
-                  className="text-gray-600 bg-gray-300 p-2 rounded-md"
+                  key={index}
+                  className="text-gray-700 border border-gray-300 bg-gray-100 px-3 py-1 rounded-full"
                 >
                   <span className="font-medium">{item}</span>
                 </span>
@@ -153,7 +155,7 @@ const PracticePage: React.FC = () => {
               {topic.length > 0 && (
                 <button
                   onClick={handleResetFilters}
-                  className="flex flex-row space-x-2 items-center text-base text-red-500 underline hover:text-red-600 transition"
+                  className="flex flex-row space-x-2 items-center text-sm text-red-500 underline hover:text-red-600 transition"
                 >
                   <CloseOutlined />
                   <span>Xóa bộ lọc</span>
@@ -167,7 +169,7 @@ const PracticePage: React.FC = () => {
                     key={index}
                     src={friend.avatar}
                     alt={friend.name}
-                    className="w-8 h-8 rounded-full border-2 border-white"
+                    className="w-8 h-8 rounded-full border-2 border-white shadow"
                   />
                 ))}
               </div>

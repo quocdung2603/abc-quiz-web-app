@@ -47,51 +47,47 @@ const BlogDetail = () => {
   ];
 
   return (
-    <div className="flex flex-col max-w-7xl mx-auto my-5 space-y-5">
+    <div className="flex flex-col max-w-7xl mx-auto py-10 px-4 space-y-10 animate-fade-in">
       {/* Ảnh bìa */}
-      <div className="w-full h-[500px] bg-red-300 relative">
+      <div className="w-full h-[300px] md:h-[500px] rounded-2xl overflow-hidden relative shadow-neon border-4 border-accent animate-fade-in">
         <img
           src={mainBlog.coverImage}
           alt="cover"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover scale-100"
         />
-      </div>
-
-      <div className="flex flex-row justify-center space-x-5">
-        {/* Bên trái: bài viết chính */}
-        <div className="w-[70%] flex flex-col space-y-5">
-          {/* Tiêu đề + tác giả */}
-          <div className="w-full flex flex-col space-y-5">
-            <span className="bg-green-100 mr-auto p-2 rounded text-green-600 font-semibold">
-              {mainBlog.category}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-8">
+          <span className="bg-gradient-to-r from-primary to-accent text-xs text-white font-bold px-4 py-2 rounded-full shadow-neon uppercase tracking-wider mb-4 w-fit">
+            {mainBlog.category}
+          </span>
+          <h2 className="text-3xl md:text-5xl font-bold text-white drop-shadow-neon mb-4 max-w-3xl animate-fade-in-up">
+            {mainBlog.title}
+          </h2>
+          <div className="flex items-center gap-4 text-white animate-fade-in-up">
+            <img
+              src={mainBlog.author.avatar}
+              alt={mainBlog.author.name}
+              className="w-12 h-12 rounded-full border-2 border-white shadow-md"
+            />
+            <span className="text-lg font-semibold">
+              {mainBlog.author.name}
             </span>
-            <h2 className="text-3xl font-semibold">{mainBlog.title}</h2>
-            <div className="flex flex-row items-center space-x-24">
-              <div className="flex flex-row items-center space-x-5">
-                <img
-                  src={mainBlog.author.avatar}
-                  alt={mainBlog.author.name}
-                  className="w-10 h-10 rounded-full"
-                />
-                <span className="text-lg font-semibold">
-                  {mainBlog.author.name}
-                </span>
-              </div>
-              <span className="text-lg">{mainBlog.date}</span>
-            </div>
-            <span className="w-full border"></span>
+            <span className="text-lg text-gray-200">{mainBlog.date}</span>
           </div>
-
-          {/* Nội dung bài viết */}
-          <div
-            className="prose max-w-none"
-            dangerouslySetInnerHTML={{ __html: mainBlog.content }}
-          />
         </div>
-
+      </div>
+      {/* Nội dung + sidebar */}
+      <div className="flex flex-col md:flex-row gap-10">
+        {/* Bên trái: bài viết chính */}
+        <div className="md:w-2/3 w-full flex flex-col gap-8">
+          <div className="prose max-w-none prose-lg prose-primary animate-fade-in-up bg-white rounded-2xl shadow-lg p-8 border border-accent">
+            <div dangerouslySetInnerHTML={{ __html: mainBlog.content }} />
+          </div>
+        </div>
         {/* Bên phải: Tin tức mới nhất */}
-        <div className="w-[30%] flex flex-col space-y-5">
-          <h3 className="mr-auto text-lg font-semibold">Tin tức mới nhất</h3>
+        <div className="md:w-1/3 w-full flex flex-col gap-6">
+          <h3 className="text-heading-3 font-bold text-primary mb-2">
+            Tin tức mới nhất
+          </h3>
           <BlogItemSm />
           <BlogItemSm />
           <BlogItemSm />

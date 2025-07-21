@@ -9,6 +9,8 @@ import PracticePage from "../pages/client/practice/PracticePage";
 import ProfilePage from "../pages/client/profile/ProfilePage";
 import LeaderBoardPage from "../pages/client/ranking/LeaderboardPage";
 import ResultPage from "../pages/client/result/ResultPage";
+import InterviewPracticePage from "../pages/client/interview/InterviewPracticePage";
+import QuestionDetailPage from "../pages/client/interview/QuestionDetailPage";
 import { ClientRouterLink } from "../utils/RouterLink";
 
 export const ClientRoute = [
@@ -55,5 +57,13 @@ export const ClientRoute = [
   {
     path: ClientRouterLink.Profile,
     element: ProfilePage,
+  },
+  {
+    path: ClientRouterLink.Interview,
+    element: InterviewPracticePage,
+  },
+  {
+    path: "/interview-practice/:topicId/:questionId",
+    element: QuestionDetailPage,
   },
 ];

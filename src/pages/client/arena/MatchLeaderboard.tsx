@@ -83,24 +83,32 @@ const MatchLeaderboard: React.FC = () => {
   );
 
   return (
-    <div className="bg-gradient-to-br from-red-900 to-black min-h-screen flex flex-col p-6 text-white">
+    <div className="bg-gradient-to-br from-primary to-accent min-h-screen flex flex-col p-6 text-white animate-fade-in">
       {/* Thông tin cuộc thi */}
-      <div className="mb-8 p-6 bg-gray-800 rounded-lg shadow-lg animate-fade-in">
-        <h1 className="text-3xl font-bold mb-4">{matchInfo.name}</h1>
-        <div className="grid grid-cols-2 gap-4">
+      <div className="mb-8 p-8 bg-gray-900 rounded-2xl shadow-neon border-b-4 border-accent animate-fade-in">
+        <h1 className="text-heading-2 font-bold mb-4 bg-gradient-to-r from-yellow-400 to-accent bg-clip-text text-transparent drop-shadow-neon">
+          {matchInfo.name}
+        </h1>
+        <div className="grid grid-cols-2 gap-8">
           <div>
             <p className="text-sm text-gray-300">Nội dung thi</p>
-            <p className="text-lg">{matchInfo.content}</p>
+            <p className="text-lg font-bold text-primary">
+              {matchInfo.content}
+            </p>
           </div>
           <div>
             <p className="text-sm text-gray-300">Số câu hỏi</p>
-            <p className="text-lg">{matchInfo.totalQuestions}</p>
+            <p className="text-lg font-bold text-accent">
+              {matchInfo.totalQuestions}
+            </p>
           </div>
           <div>
             <p className="text-sm text-gray-300">Thời gian còn lại</p>
             <p
-              className={`text-lg ${
-                matchInfo.timeLeft < 60 ? "text-red-400 animate-pulse" : ""
+              className={`text-lg font-bold ${
+                matchInfo.timeLeft < 60
+                  ? "text-danger animate-pulse"
+                  : "text-white"
               }`}
             >
               {formatTime(matchInfo.timeLeft)}
@@ -108,14 +116,15 @@ const MatchLeaderboard: React.FC = () => {
           </div>
         </div>
       </div>
-
       {/* Bảng xếp hạng */}
-      <div className="bg-gray-800 p-6 rounded-lg shadow-lg animate-fade-in">
-        <h2 className="text-2xl font-semibold mb-4">Bảng xếp hạng</h2>
-        <div className="w-full">
+      <div className="bg-white p-8 rounded-2xl shadow-lg animate-fade-in text-gray-900 overflow-x-auto">
+        <h2 className="text-heading-3 font-semibold mb-6 text-primary">
+          Bảng xếp hạng
+        </h2>
+        <div className="w-full min-w-[900px]">
           <table className="w-full border-collapse table-auto">
             <thead>
-              <tr className="bg-gray-700">
+              <tr className="bg-gray-200">
                 <th className="p-3 text-left min-w-[60px]">Hạng</th>
                 <th className="p-3 text-left min-w-[150px]">Người chơi</th>
                 <th className="p-3 text-center min-w-[100px]">Số câu đúng</th>
@@ -139,11 +148,20 @@ const MatchLeaderboard: React.FC = () => {
               {participants.map((participant, index) => (
                 <tr
                   key={index}
-                  className="border-t border-gray-600 hover:bg-gray-700 transition-colors duration-200"
+                  className={`border-t border-gray-300 hover:bg-accent/10 transition-colors duration-200 ${
+                    index < 3
+                      ? "font-bold bg-gradient-to-r from-yellow-100 to-accent/10"
+                      : ""
+                  }`}
                 >
-                  <td className="p-3">{index + 1}</td>
-                  <td className="p-3">{participant.name}</td>
-                  <td className="p-3 text-center">
+                  <td className="p-3 text-primary">{index + 1}</td>
+                  <td className="p-3 flex items-center gap-2">
+                    {index === 0 && <span className="text-2xl">🥇</span>}
+                    {index === 1 && <span className="text-2xl">🥈</span>}
+                    {index === 2 && <span className="text-2xl">🥉</span>}
+                    {participant.name}
+                  </td>
+                  <td className="p-3 text-center text-accent">
                     {participant.correctAnswers}
                   </td>
                   {displayedQuestions.map((questionIndex) => (
@@ -156,11 +174,11 @@ const MatchLeaderboard: React.FC = () => {
                       }`}
                     >
                       {participant.answers[questionIndex] === true ? (
-                        <CheckCircleOutlined className="text-green-500" />
+                        <span className="text-green-500 text-xl">✔️</span>
                       ) : participant.answers[questionIndex] === false ? (
-                        <CloseCircleOutlined className="text-red-500" />
+                        <span className="text-danger text-xl">❌</span>
                       ) : (
-                        <span>-</span>
+                        <span className="text-gray-400">-</span>
                       )}
                     </td>
                   ))}
@@ -169,52 +187,32 @@ const MatchLeaderboard: React.FC = () => {
             </tbody>
           </table>
         </div>
-
         {/* Nút điều hướng (hiển thị khi số câu hỏi > 50) */}
         {matchInfo.totalQuestions > 50 && (
-          <div className="flex justify-between items-center mt-4">
-            <Button
+          <div className="flex justify-between items-center mt-6">
+            <button
               onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
               disabled={currentPage === 0}
-              className="bg-gray-700 text-white border-none hover:bg-gray-600"
+              className="px-6 py-2 rounded-lg bg-secondary text-white font-semibold shadow hover:bg-primary transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent disabled:opacity-50"
             >
               Trước
-            </Button>
-            <span>
+            </button>
+            <span className="text-lg font-semibold text-primary">
               Câu {startQuestion + 1} - {endQuestion} /{" "}
               {matchInfo.totalQuestions}
             </span>
-            <Button
+            <button
               onClick={() =>
                 setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1))
               }
               disabled={currentPage === totalPages - 1}
-              className="bg-gray-700 text-white border-none hover:bg-gray-600"
+              className="px-6 py-2 rounded-lg bg-secondary text-white font-semibold shadow hover:bg-primary transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent disabled:opacity-50"
             >
               Tiếp
-            </Button>
+            </button>
           </div>
         )}
       </div>
-
-      {/* CSS Animation */}
-      <style>
-        {`
-          @keyframes fadeIn {
-            from {
-              opacity: 0;
-              transform: translateY(10px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-          .animate-fade-in {
-            animation: fadeIn 0.5s ease-in-out;
-          }
-        `}
-      </style>
     </div>
   );
 };

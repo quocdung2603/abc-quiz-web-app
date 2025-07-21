@@ -5,7 +5,7 @@ interface Props {
 
 export default function FilterBar({ filter, setFilter }: Props) {
   return (
-    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8 bg-white/80 rounded-xl shadow p-4 border border-gray-100">
       {/* Bộ lọc thời gian */}
       <div className="flex gap-2">
         {[
@@ -15,10 +15,10 @@ export default function FilterBar({ filter, setFilter }: Props) {
         ].map((t) => (
           <button
             key={t.key}
-            className={`px-4 py-2 rounded-full text-sm font-semibold transition ${
+            className={`px-5 py-2 rounded-full text-sm font-semibold transition focus:outline-none shadow border-2 ${
               filter.time === t.key
-                ? "bg-yellow-400 text-white shadow"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                ? "bg-gradient-to-r from-yellow-400 to-purple-400 text-white border-yellow-400 scale-105"
+                : "bg-white text-gray-700 border-gray-200 hover:bg-blue-50 hover:text-blue-600"
             }`}
             onClick={() => setFilter({ ...filter, time: t.key })}
           >
@@ -30,7 +30,7 @@ export default function FilterBar({ filter, setFilter }: Props) {
       {/* Dropdown chọn chủ đề */}
       <div>
         <select
-          className="px-4 py-2 rounded-full border border-gray-300 text-sm bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-400"
+          className="px-5 py-2 rounded-full border-2 border-gray-200 text-sm bg-white shadow focus:outline-none focus:ring-2 focus:ring-yellow-400"
           value={filter.topic}
           onChange={(e) => setFilter({ ...filter, topic: e.target.value })}
         >

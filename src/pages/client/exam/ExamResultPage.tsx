@@ -45,40 +45,44 @@ const ExamResultPage = () => {
   );
 
   return (
-    <div className="bg-[#1C2526] w-full min-h-screen flex flex-row gap-6 p-6 text-white">
+    <div className="max-w-7xl mx-auto py-10 px-5 min-h-screen flex flex-col md:flex-row gap-8">
       {/* LEFT SIDE */}
-      <div className="w-3/4 flex flex-col items-start">
-        <p className="text-sm mb-4 cursor-pointer hover:underline">
+      <div className="md:w-3/4 w-full flex flex-col items-start">
+        <p className="text-sm mb-4 cursor-pointer hover:underline text-primary">
           ← Trang chủ
         </p>
 
         {!selectedQuestionId ? (
           <>
             <div className="flex flex-col items-center gap-2 w-full">
-              <div className="w-32 h-32 rounded-full border-4 border-yellow-400 flex items-center justify-center text-yellow-400 text-xl font-bold">
+              <div className="w-32 h-32 rounded-full border-4 border-accent flex items-center justify-center text-accent text-xl font-bold bg-white shadow">
                 <div>
                   <p>00 : 02</p>
-                  <p className="text-sm font-normal mt-1 text-center">
+                  <p className="text-sm font-normal mt-1 text-center text-gray-500">
                     phút : giây
                   </p>
                 </div>
               </div>
 
-              <p className="mt-4 text-lg">Số câu hoàn thành</p>
-              <h2 className="text-3xl font-bold">
+              <p className="mt-4 text-lg text-secondary">Số câu hoàn thành</p>
+              <h2 className="text-3xl font-bold text-primary">
                 {total}/{total}
               </h2>
 
-              <p className="mt-4 text-green-300 text-base">
+              <p className="mt-4 text-success text-base font-semibold">
                 Chúc mừng! Bạn đã hoàn thành bài thi!
               </p>
             </div>
 
             <div className="mx-auto">
-              <div className="bg-[#1C1F24] border border-yellow-500 mt-6 p-4 rounded-lg w-[300px]">
+              <div className="bg-white border border-success mt-6 p-4 rounded-lg w-[300px] shadow">
                 <div className="flex justify-between mb-1">
-                  <span className="text-green-400">✔ {correctCount} Câu</span>
-                  <span>{percentCorrect}%</span>
+                  <span className="text-success font-semibold">
+                    ✔ {correctCount} Câu
+                  </span>
+                  <span className="text-success font-semibold">
+                    {percentCorrect}%
+                  </span>
                 </div>
                 <Progress
                   percent={percentCorrect}
@@ -87,8 +91,12 @@ const ExamResultPage = () => {
                 />
 
                 <div className="flex justify-between mb-1 mt-2">
-                  <span className="text-red-400">✘ {wrongCount} Câu</span>
-                  <span>{100 - percentCorrect}%</span>
+                  <span className="text-danger font-semibold">
+                    ✘ {wrongCount} Câu
+                  </span>
+                  <span className="text-danger font-semibold">
+                    {100 - percentCorrect}%
+                  </span>
                 </div>
                 <Progress
                   percent={100 - percentCorrect}
@@ -99,25 +107,25 @@ const ExamResultPage = () => {
               <div className="mt-6 flex flex-col gap-3 w-[300px]">
                 <Button
                   icon={<ReloadOutlined />}
-                  className="bg-yellow-500 text-black font-bold hover:bg-yellow-400"
+                  className="bg-gradient-to-r from-primary to-accent text-white font-bold hover:scale-105 hover:shadow-lg border-none"
                 >
                   Thi lại
                 </Button>
                 <Button
                   icon={<StarFilled />}
-                  className="bg-black text-white font-bold hover:bg-gray-800"
+                  className="bg-secondary text-white font-bold hover:bg-primary border-none"
                 >
                   Đánh giá đề
                 </Button>
                 <Button
                   icon={<SwapOutlined />}
-                  className="bg-[#2E2E2E] text-white border-white"
+                  className="bg-gray-200 text-gray-700 font-bold hover:bg-primary hover:text-white border-none"
                 >
                   Luyện tập đề mới
                 </Button>
                 <Button
                   icon={<ShareAltOutlined />}
-                  className="bg-[#2E2E2E] text-white border-white"
+                  className="bg-gray-200 text-gray-700 font-bold hover:bg-primary hover:text-white border-none"
                 >
                   Chia sẻ đề thi
                 </Button>
@@ -126,11 +134,11 @@ const ExamResultPage = () => {
           </>
         ) : (
           selectedQuestion && (
-            <div className="w-full">
-              <h2 className="text-lg font-bold mb-2">
+            <div className="w-full bg-white rounded-lg shadow p-6">
+              <h2 className="text-lg font-bold mb-2 text-primary">
                 {selectedQuestion.questionText}
               </h2>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {Object.entries(selectedQuestion.options).map(
                   ([key, value]) => {
                     const isCorrect = selectedQuestion.correctAnswer === key;
@@ -140,14 +148,15 @@ const ExamResultPage = () => {
                     return (
                       <div
                         key={key}
-                        className={`p-3 rounded border text-sm ${
-                          isCorrect
-                            ? "border-green-500 bg-green-800"
-                            : isWrongChoice
-                            ? "border-red-500 bg-red-800"
-                            : "border-gray-500 bg-gray-700"
-                        } ${
-                          isUserAnswer ? "underline decoration-yellow-300" : ""
+                        className={`p-3 rounded border text-sm font-medium transition-all
+                          ${
+                            isCorrect
+                              ? "border-success bg-success/10 text-success"
+                              : isWrongChoice
+                              ? "border-danger bg-danger/10 text-danger"
+                              : "border-gray-300 bg-gray-50 text-gray-700"
+                          } ${
+                          isUserAnswer ? "underline decoration-accent" : ""
                         }`}
                       >
                         <strong>{key}:</strong> {value}
@@ -158,7 +167,7 @@ const ExamResultPage = () => {
               </div>
               {selectedQuestion.userAnswer !==
                 selectedQuestion.correctAnswer && (
-                <div className="mt-4 text-red-300 italic">
+                <div className="mt-4 text-danger italic">
                   💡 Giải thích: {selectedQuestion.explanation}
                 </div>
               )}
@@ -168,38 +177,42 @@ const ExamResultPage = () => {
       </div>
 
       {/* RIGHT SIDE */}
-      <div className="w-1/4 bg-[#111416] p-4 rounded-xl">
-        <h3 className="text-sm mb-2 font-semibold"># Loại câu hỏi</h3>
+      <div className="md:w-1/4 w-full bg-white p-4 rounded-lg shadow h-fit">
+        <h3 className="text-sm mb-2 font-semibold text-primary">
+          # Loại câu hỏi
+        </h3>
         <Tag color="blue" className="mb-4">
           JavaScript
         </Tag>
 
-        <h3 className="text-sm mb-2 font-semibold">📄 Chi tiết kết quả</h3>
+        <h3 className="text-sm mb-2 font-semibold text-primary">
+          📄 Chi tiết kết quả
+        </h3>
         <div className="grid grid-cols-4 gap-2">
           <div
             onClick={() => setSelectedQuestionId(null)}
-            className={`flex items-center justify-center p-2 rounded bg-yellow-500 text-black cursor-pointer col-span-4 font-bold`}
+            className={`flex items-center justify-center p-2 rounded bg-gradient-to-r from-primary to-accent text-white cursor-pointer col-span-4 font-bold`}
           >
             📊 Xem thống kê tổng
           </div>
           {mockQuestions.map((q) => {
             const isCorrect = q.userAnswer === q.correctAnswer;
             const icon = isCorrect ? "✔" : "✘";
-            const color = isCorrect ? "text-green-400" : "text-red-400";
+            const color = isCorrect ? "text-success" : "text-danger";
             const isActive = q.questionId === selectedQuestionId;
 
             return (
               <div
                 key={q.questionId}
                 onClick={() => setSelectedQuestionId(q.questionId)}
-                className={`flex items-center justify-center gap-1 p-2 rounded cursor-pointer ${
-                  isActive ? "bg-yellow-600" : "bg-[#959fb1]"
-                } ${color}`}
+                className={`flex items-center justify-center gap-1 p-2 rounded cursor-pointer font-semibold text-sm border transition-all
+                  ${
+                    isActive
+                      ? "bg-accent text-white border-accent"
+                      : "bg-gray-100 text-gray-700 border-gray-200 hover:bg-primary hover:text-white"
+                  } ${color}`}
               >
-                {icon}{" "}
-                <span className="text-white">
-                  Câu {String(q.questionId).padStart(2, "0")}
-                </span>
+                {icon} <span>Câu {String(q.questionId).padStart(2, "0")}</span>
               </div>
             );
           })}

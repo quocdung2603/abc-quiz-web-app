@@ -3,6 +3,8 @@ import Column from "./components/lobby/Column";
 import { Modal, notification, Table, TableProps } from "antd";
 import { useNavigate } from "react-router-dom";
 import { ArenaRouterLink } from "../../../utils/RouterLink";
+import { CopyOutlined, UserOutlined, CrownOutlined } from "@ant-design/icons";
+import { Tooltip, message } from "antd";
 
 export interface Participant {
   id: string;
@@ -47,7 +49,7 @@ const MatchLobby: React.FC = () => {
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(matchId);
-    alert("Mã ID đã được sao chép!");
+    message.success("Mã ID đã được sao chép!");
   };
 
   const handleStartMatch = () => {
@@ -96,103 +98,110 @@ const MatchLobby: React.FC = () => {
   };
 
   return (
-    <div className="p-6 bg-white max-w-7xl mx-auto my-auto">
-      <h2 className="text-2xl font-bold mb-6">
-        Phòng chờ - {matchDetails.name}
+    <div className="p-4 bg-white/90 max-w-5xl mx-auto my-8 rounded-xl shadow border border-blue-100 animate-fade-in">
+      <h2 className="text-xl font-bold text-blue-900 mb-4 text-center tracking-wide flex items-center gap-2 justify-center">
+        <UserOutlined className="text-accent text-lg" /> Phòng chờ -{" "}
+        {matchDetails.name}
       </h2>
-
-      <div className="w-full flex flex-row space-x-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         {/* Mã ID */}
-        <div className="w-1/2 mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-4 bg-gray-300 text-center p-1">
+        <div className="flex flex-col gap-1">
+          <label className="block text-xs font-semibold text-gray-600 mb-1">
             Mã ID trận đấu
           </label>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center gap-2">
             <input
               type={isIdVisible ? "text" : "password"}
               value={matchId}
               readOnly
-              className="w-3/4 p-2 border rounded-md bg-gray-100"
+              className="w-2/3 p-2 border border-gray-200 rounded bg-gray-50 text-base font-mono"
             />
             <button
               onClick={toggleIdVisibility}
-              className="px-3 py-1 bg-gray-200 rounded-md hover:bg-gray-300"
+              className="px-2 py-1 rounded bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-xs transition-all"
             >
               {isIdVisible ? "Ẩn ID" : "Hiện ID"}
             </button>
-            <button
-              onClick={copyToClipboard}
-              className="px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-            >
-              Copy ID
-            </button>
+            <Tooltip title="Sao chép ID">
+              <button
+                onClick={copyToClipboard}
+                className="px-2 py-1 rounded bg-blue-400 text-white hover:bg-blue-500 transition-all font-semibold flex items-center gap-1 text-xs"
+              >
+                <CopyOutlined /> Copy
+              </button>
+            </Tooltip>
           </div>
         </div>
-
-        {/* Người tạo trận đấu */}
-        <div className="w-1/2 mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-4 bg-gray-300 text-center p-1">
+        {/* Người tổ chức */}
+        <div className="flex flex-col gap-1">
+          <label className="block text-xs font-semibold text-gray-600 mb-1">
             Người tổ chức
           </label>
-          <p className="p-2 bg-gray-100 rounded-md">{matchDetails.host}</p>
+          <p className="p-2 bg-gray-50 rounded font-semibold text-base flex items-center gap-2">
+            <CrownOutlined className="text-yellow-400" /> {matchDetails.host}
+          </p>
         </div>
       </div>
-
       {/* Nội dung trận đấu */}
-      <div className="mb-4 flex flex-col justify-between">
-        <label className="block text-sm font-medium text-gray-700 mb-4 bg-gray-300 text-center p-1">
-          Nội dung trận đấu
-        </label>
-        <div className="flex flex-row items-center space-x-10">
-          <div className="w-1/3 flex flex-col border">
-            <span className="text-center bg-gray-300">Nội dung</span>
-            <p className="p-4 text-center">
-              {matchDetails.languages.join(", ")}
-            </p>
-          </div>
-          <div className="w-1/3 flex flex-col border">
-            <span className="text-center bg-gray-300">Số lượng câu hỏi</span>
-            <p className="p-4 text-center">{matchDetails.questions}</p>
-          </div>
-          <div className="w-1/3 flex flex-col border">
-            <span className="text-center bg-gray-300">Nội dung</span>
-            <p className="p-4 text-center">{matchDetails.duration}</p>
-          </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
+        <div className="flex flex-col border rounded shadow-sm p-3 bg-gray-50">
+          <span className="text-center text-xs font-semibold text-gray-500 mb-1">
+            Nội dung
+          </span>
+          <p className="text-center text-base font-bold text-blue-700">
+            {matchDetails.languages.join(", ")}
+          </p>
+        </div>
+        <div className="flex flex-col border rounded shadow-sm p-3 bg-gray-50">
+          <span className="text-center text-xs font-semibold text-gray-500 mb-1">
+            Số lượng câu hỏi
+          </span>
+          <p className="text-center text-base font-bold text-purple-700">
+            {matchDetails.questions}
+          </p>
+        </div>
+        <div className="flex flex-col border rounded shadow-sm p-3 bg-gray-50">
+          <span className="text-center text-xs font-semibold text-gray-500 mb-1">
+            Thời lượng
+          </span>
+          <p className="text-center text-base font-bold text-green-700">
+            {matchDetails.duration}
+          </p>
         </div>
       </div>
-
       {/* Bảng người tham gia */}
       <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700 mb-4 bg-gray-300 text-center p-1">
+        <label className="block text-xs font-semibold text-gray-600 mb-1">
           Người tham gia
         </label>
         <Table
           columns={Column(showKickModal)}
-          dataSource={listData.map((item, index) => ({
-            ...item,
-            key: index,
-          }))}
+          dataSource={listData.map((item, index) => ({ ...item, key: index }))}
           pagination={{
             pageSize: 5,
             total: listData.length,
+            position: ["bottomCenter"],
+            showSizeChanger: false,
+            className: "custom-pagination no-ant-pagination-style",
           }}
           onChange={onChange}
+          className="rounded-lg shadow border border-gray-100"
+          size="small"
         />
       </div>
-
       {/* Nút chức năng */}
-      <div className="flex space-x-4">
+      <div className="flex flex-col md:flex-row gap-2">
         {isHost ? (
           <>
             <button
               onClick={handleStartMatch}
-              className="w-1/2 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+              className="w-full md:w-1/2 py-2 text-base font-bold rounded-lg bg-green-400 text-white hover:bg-green-500 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-300"
             >
               Bắt đầu trận đấu
             </button>
             <button
               onClick={handleCancelMatch}
-              className="w-1/2 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+              className="w-full md:w-1/2 py-2 text-base font-bold rounded-lg bg-red-400 text-white hover:bg-red-500 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-300"
             >
               Hủy trận đấu
             </button>
@@ -200,7 +209,7 @@ const MatchLobby: React.FC = () => {
         ) : (
           <button
             onClick={handleExitMatch}
-            className="w-full py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+            className="w-full py-2 text-base font-bold rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-400"
           >
             Thoát khỏi trận đấu
           </button>

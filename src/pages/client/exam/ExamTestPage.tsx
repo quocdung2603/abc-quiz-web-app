@@ -89,49 +89,54 @@ const ExamTestPage: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#1C2526] min-h-screen flex flex-col p-6">
-      <p className="text-sm mb-4 cursor-pointer hover:underline mr-auto text-white">
-        ← Trang chủ
-      </p>
-      <div className="flex flex-col md:flex-row gap-6">
-        {/* Bên trái */}
-        <div className="md:w-3/4 flex flex-col">
-          <div className="flex-grow w-full">
-            {/* Header */}
-            <div className="w-full flex flex-col justify-between space-y-5">
-              <h1 className="text-xl font-semibold text-white">
+    <div className="max-w-7xl mx-auto py-10 px-5 min-h-screen bg-gray-50">
+      <div className="flex flex-col md:flex-row gap-8">
+        {/* Box câu hỏi */}
+        <div className="md:w-3/4 w-full">
+          <div className="bg-white rounded-lg shadow p-6 mb-6">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
+              <h1 className="text-xl font-bold text-primary">
                 {currentData.title}
               </h1>
-              <div className="mt-2 flex gap-2">
-                {currentData.tags.map((tag, i) => (
-                  <span
-                    key={i}
-                    className="bg-[#6B7280] text-white text-xs px-2 py-1 rounded"
-                  >
-                    {tag}
+              <div className="flex items-center gap-2 text-gray-500 text-sm">
+                <span>
+                  Thời gian còn lại:{" "}
+                  <span className="font-semibold text-accent">
+                    {formatTime(timeLeft)}
                   </span>
-                ))}
+                </span>
+                <span>|</span>
+                <span>
+                  Câu {currentQuestion}/{mockData.length}
+                </span>
               </div>
-              <div className="w-full px-10 border border-white"></div>
             </div>
-
-            {/* Câu hỏi */}
-            <div className="mt-6 mx-20">
-              <p className="text-lg font-medium text-white">
+            <div className="flex flex-wrap gap-2 mb-4">
+              {currentData.tags.map((tag, i) => (
+                <span
+                  key={i}
+                  className="bg-accent text-white text-xs px-2 py-1 rounded-full"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <div className="mb-6">
+              <p className="text-base font-medium text-gray-800 mb-4">
                 {currentData.content}
               </p>
-              <div className="mt-4 flex flex-col gap-3 w-2/3">
+              <div className="flex flex-col gap-3">
                 {currentData.options.map((option, idx) => {
                   const isSelected = selectedAnswer === idx + 1;
                   return (
                     <div
                       key={idx}
                       onClick={() => handleAnswerChange(idx + 1)}
-                      className={`cursor-pointer p-3 rounded border transition-colors duration-200
+                      className={`cursor-pointer p-3 rounded border transition-all duration-200 text-sm font-medium
                         ${
                           isSelected
-                            ? "bg-[#FFC107] text-black border-[#FFC107]"
-                            : "bg-[#1C2526] text-[#D1D5DB] border-[#6B7280] hover:bg-[#374151] hover:border-[#D1D5DB]"
+                            ? "bg-gradient-to-r from-primary to-accent text-white border-primary shadow"
+                            : "bg-gray-50 text-gray-700 border-gray-200 hover:bg-primary/10 hover:border-primary"
                         }`}
                     >
                       {option}
@@ -140,185 +145,131 @@ const ExamTestPage: React.FC = () => {
                 })}
               </div>
             </div>
-          </div>
-
-          {showExplanation && (
-            <div
-              className={`absolute top-40 left-20 p-5 ${
-                isExpanded ? "max-w-[1000px]" : "w-[400px]"
-              } bg-[#2c2f33] text-white relative`}
-            >
-              <span className="text-yellow-400 font-semibold">
-                💡 Giải thích đáp án
-              </span>
-              <div className="mt-2">
-                <strong>JavaScript</strong> có thể được thực thi trên các hệ
-                điều hành khác nhau, do đó chương trình được phát triển trên{" "}
-                <strong>UNIX</strong> sẽ hoạt động hoàn toàn tốt trên{" "}
-                <strong>windows</strong>.
-              </div>
-              <div
-                className="absolute top-2 right-2 cursor-pointer"
-                onClick={() => setIsExpanded((prev) => !prev)}
+            <div className="flex flex-wrap gap-2 mb-4">
+              <Button
+                onClick={() => setShowExplanation(!showExplanation)}
+                className="bg-gradient-to-r from-primary to-accent text-white font-semibold px-4 py-1 rounded shadow hover:scale-105 hover:shadow-lg border-none text-sm"
               >
-                🔍
-              </div>
-            </div>
-          )}
-
-          {/* Phần dưới */}
-          <div className="w-2/3 flex justify-between items-center bg-black px-2 py-4 rounded absolute bottom-10 left-20">
-            <Button
-              onClick={() => {
-                currentQuestion > 1 && goToQuestion(currentQuestion - 1);
-              }}
-              className="border-[#6B7280] text-[#D1D5DB] bg-[#1C2526] hover:border-[#D1D5DB] hover:text-white"
-            >
-              {`Câu ${currentQuestion}`}
-            </Button>
-            <div className="flex gap-2">
+                Đáp án/Giải thích
+              </Button>
               <Button
                 onClick={() => setIsErrorModalOpen(true)}
-                className="bg-[#6B7280] text-white border-none hover:bg-[#4B5563]"
+                className="bg-secondary text-white font-semibold px-4 py-1 rounded shadow hover:bg-primary border-none text-sm"
               >
                 Báo lỗi
               </Button>
               <Button
                 onClick={() => toggleFlagQuestion(currentData.id)}
-                className={`border-none ${
+                className={`font-semibold px-4 py-1 rounded shadow border-none text-sm ${
                   flaggedQuestions.includes(currentData.id)
                     ? "bg-red-500 text-white"
-                    : "bg-[#6B7280] text-white"
-                } hover:bg-red-600`}
+                    : "bg-gray-300 text-gray-700 hover:bg-primary hover:text-white"
+                }`}
               >
                 {flaggedQuestions.includes(currentData.id)
                   ? "Bỏ đánh dấu"
                   : "Đánh dấu"}
               </Button>
-              <Button
-                onClick={() => setShowExplanation(!showExplanation)}
-                className="bg-[#FFC107] text-black border-none hover:bg-[#F59E0B]"
+            </div>
+            {showExplanation && (
+              <div
+                className={`mt-4 bg-primary/10 border-l-4 border-primary p-4 rounded-lg text-gray-800 relative`}
               >
-                Đáp án
+                <span className="text-accent font-semibold block mb-2">
+                  💡 Giải thích đáp án
+                </span>
+                <div>
+                  <strong>JavaScript</strong> có thể được thực thi trên các hệ
+                  điều hành khác nhau, do đó chương trình được phát triển trên{" "}
+                  <strong>UNIX</strong> sẽ hoạt động hoàn toàn tốt trên{" "}
+                  <strong>windows</strong>.
+                </div>
+                <button
+                  className="absolute top-2 right-2 text-primary hover:text-accent"
+                  onClick={() => setShowExplanation(false)}
+                >
+                  ✕
+                </button>
+              </div>
+            )}
+            <div className="flex justify-between items-center mt-8">
+              <Button
+                onClick={() =>
+                  currentQuestion > 1 && goToQuestion(currentQuestion - 1)
+                }
+                className="bg-gray-200 text-gray-700 font-semibold px-4 py-1 rounded shadow hover:bg-primary hover:text-white border-none text-sm"
+                disabled={currentQuestion === 1}
+              >
+                ← Câu trước
               </Button>
               <Button
-                className="bg-[#6B7280] text-white border-none hover:bg-[#4B5563]"
                 onClick={nextQuestion}
+                className="bg-gradient-to-r from-primary to-accent text-white font-semibold px-4 py-1 rounded shadow hover:scale-105 hover:shadow-lg border-none text-sm"
                 disabled={currentQuestion === mockData.length}
               >
-                Tiếp theo
+                Câu tiếp theo →
               </Button>
             </div>
-            <Button
-              onClick={() => goToQuestion(currentQuestion + 1)}
-              className="border-[#6B7280] text-[#D1D5DB] bg-[#1C2526] hover:border-[#D1D5DB] hover:text-white"
-            >
-              {`Câu ${currentQuestion + 1}`}
-            </Button>
           </div>
         </div>
-
-        <Modal
-          title="Gửi phản hồi về câu hỏi"
-          open={isErrorModalOpen}
-          onCancel={() => setIsErrorModalOpen(false)}
-          onOk={() => {
-            // Xử lý gửi phản hồi
-            console.log(selectedErrors, errorDetails);
-            setIsErrorModalOpen(false);
-          }}
-          okText="Gửi"
-          cancelText="Hủy"
-        >
-          <Checkbox.Group
-            onChange={(checked) => setSelectedErrors(checked as string[])}
-            className="flex flex-col gap-2"
-          >
-            <Checkbox value="Lỗi chính tả">Lỗi chính tả</Checkbox>
-            <Checkbox value="Sai nội dung">Sai nội dung</Checkbox>
-            <Checkbox value="Sai hình ảnh">Sai hình ảnh</Checkbox>
-            <Checkbox value="Sai câu trả lời">Sai câu trả lời</Checkbox>
-            <Checkbox value="Sai đáp án">Sai đáp án</Checkbox>
-            <Checkbox value="Lỗi khác">Lỗi khác</Checkbox>
-          </Checkbox.Group>
-          <Input.TextArea
-            placeholder="Chi tiết lỗi..."
-            className="mt-3"
-            rows={4}
-            onChange={(e) => setErrorDetails(e.target.value)}
-          />
-          <Upload className="mt-2">
-            <Button>Upload ảnh lỗi</Button>
-          </Upload>
-        </Modal>
-
-        {/* Bên phải */}
-        <div className="md:w-1/4">
-          {/* Đồng hồ */}
-          <div className="flex flex-col items-center space-y-10">
-            <div className="flex flex-col mr-auto space-y-4">
-              <p className="text-[#D1D5DB] text-sm">Loại câu hỏi</p>
-              <div className="w-full flex flex-row space-x-2">
-                {currentData.tags.map((tag, i) => (
-                  <span
-                    key={i}
-                    className="bg-[#6B7280] text-white text-xs px-2 py-1 rounded"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <p className="text-[#D1D5DB] text-sm mr-auto">Thời gian làm bài</p>
-            <div className="w-32 h-32 flex items-center justify-center rounded-full border-4 border-[#FFC107]">
-              <span className="text-2xl font-semibold text-white">
-                {formatTime(timeLeft)}
-              </span>
-            </div>
-          </div>
-
-          {/* Số câu hỏi và lưới */}
-          <div className="mt-6">
-            <div className="flex items-center justify-between">
-              <span className="text-[#D1D5DB] text-sm">Số câu hỏi</span>
-              <span className="text-white font-semibold">
-                {currentQuestion}/{mockData.length}
-              </span>
-            </div>
-            <div className="mt-4 grid grid-cols-5 gap-2">
-              {answers.map((answer, index) => {
-                const isCurrent = index + 1 === currentQuestion;
-                const isAnswered = answer !== null;
-                const isFlagged = flaggedQuestions.includes(index + 1);
-                return (
-                  <div
-                    key={index}
-                    className={`w-8 h-8 flex items-center justify-center rounded cursor-pointer ${
-                      isCurrent
-                        ? "bg-[#959fb1] text-white"
-                        : isFlagged
-                        ? "bg-yellow-400 text-black"
-                        : isAnswered
-                        ? "bg-[#e95353] text-white"
-                        : "bg-[#343a41] text-white"
+        {/* Thanh điều hướng câu hỏi */}
+        <div className="md:w-1/4 w-full">
+          <div className="bg-white rounded-lg shadow p-4 sticky top-24">
+            <h3 className="text-base font-semibold text-primary mb-3">
+              Chuyển nhanh câu hỏi
+            </h3>
+            <div className="grid grid-cols-5 gap-2">
+              {mockData.map((q, idx) => (
+                <button
+                  key={q.id}
+                  className={`w-8 h-8 rounded-full font-semibold text-sm border transition-all
+                    ${
+                      currentQuestion === q.id
+                        ? "bg-primary text-white border-primary"
+                        : "bg-gray-100 text-gray-700 border-gray-200 hover:bg-primary hover:text-white"
                     }`}
-                    onClick={() => goToQuestion(index + 1)}
-                  >
-                    {isFlagged ? <FlagOutlined /> : index + 1}
-                  </div>
-                );
-              })}
+                  onClick={() => goToQuestion(q.id)}
+                >
+                  {q.id}
+                </button>
+              ))}
             </div>
-          </div>
-
-          {/* Nút kết thúc */}
-          <div className="mt-6">
-            <Button className="w-full border-[#6B7280] text-[#D1D5DB] bg-[#1C2526] hover:border-[#D1D5DB] hover:text-white">
-              Kết thúc bài thi
-            </Button>
           </div>
         </div>
       </div>
+      {/* Modal báo lỗi */}
+      <Modal
+        title="Gửi phản hồi về câu hỏi"
+        open={isErrorModalOpen}
+        onCancel={() => setIsErrorModalOpen(false)}
+        onOk={() => {
+          // Xử lý gửi phản hồi
+          setIsErrorModalOpen(false);
+        }}
+        okText="Gửi"
+        cancelText="Hủy"
+      >
+        <Checkbox.Group
+          onChange={(checked) => setSelectedErrors(checked as string[])}
+          className="flex flex-col gap-2"
+        >
+          <Checkbox value="Lỗi chính tả">Lỗi chính tả</Checkbox>
+          <Checkbox value="Sai nội dung">Sai nội dung</Checkbox>
+          <Checkbox value="Sai hình ảnh">Sai hình ảnh</Checkbox>
+          <Checkbox value="Sai câu trả lời">Sai câu trả lời</Checkbox>
+          <Checkbox value="Sai đáp án">Sai đáp án</Checkbox>
+          <Checkbox value="Lỗi khác">Lỗi khác</Checkbox>
+        </Checkbox.Group>
+        <Input.TextArea
+          placeholder="Chi tiết lỗi..."
+          className="mt-3"
+          rows={4}
+          onChange={(e) => setErrorDetails(e.target.value)}
+        />
+        <Upload className="mt-2">
+          <Button>Tải lên hình ảnh minh họa (nếu có)</Button>
+        </Upload>
+      </Modal>
     </div>
   );
 };

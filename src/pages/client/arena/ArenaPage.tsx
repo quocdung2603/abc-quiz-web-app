@@ -145,39 +145,46 @@ const ArenaPage: React.FC = () => {
 
       <div
         className={`w-full flex flex-col transition-all duration-300 ease-in-out ${
-          isSidebarOpen ? "mr-64" : "mr-0"
+          isSidebarOpen ? "mr-60" : "mr-0"
         }`}
       >
         {/* Header */}
-        <div className="bg-gray-800 p-4 flex flex-row items-center justify-between space-x-5">
-          <div className="text-3xl text-white font-bold">ABC ARENA</div>
+        <div className="bg-gradient-to-r from-blue-900 to-purple-900 px-4 py-3 flex flex-row items-center justify-between shadow-lg border-b-2 border-blue-200 z-30 relative">
+          <div className="text-2xl font-bold tracking-wide text-white select-none">
+            ABC ARENA
+          </div>
           <button
             onClick={handleToggleSidebar}
-            className="text-white p-2 rounded-md hover:bg-gray-700 focus:outline-none"
+            className="text-white p-2 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 shadow-md hover:from-purple-400 hover:to-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all"
+            aria-label="Mở menu đấu trường"
           >
             <MenuOutlined className="text-xl" />
           </button>
         </div>
-
         {/* Main content */}
-        <div className="w-full p-10 flex flex-col space-y-10">
-          <h1 className="text-3xl font-semibold text-center">
+        <div className="w-full p-4 flex flex-col space-y-6">
+          <h1 className="text-2xl font-semibold text-center text-gray-800 mb-2">
             CÁC CUỘC THI HIỆN TẠI
           </h1>
-          <Table
-            columns={Column(showViewModal, showConfirmJoinModal)}
-            dataSource={listData.map((item, index) => ({
-              ...item,
-              key: index,
-            }))}
-            pagination={{
-              pageSize: 10,
-              total: listData.length,
-            }}
-            onChange={onChange}
-          />
+          <div className="bg-white/90 rounded-xl shadow border border-gray-100 p-2">
+            <Table
+              columns={Column(showViewModal, showConfirmJoinModal)}
+              dataSource={listData.map((item, index) => ({
+                ...item,
+                key: index,
+              }))}
+              pagination={{
+                pageSize: 10,
+                total: listData.length,
+                position: ["bottomCenter"],
+                showSizeChanger: false,
+                className: "custom-pagination no-ant-pagination-style",
+              }}
+              onChange={onChange}
+              size="middle"
+            />
+          </div>
         </div>
-
         {/* Chi tiết trận đấu */}
         <Modal
           width={800}
@@ -188,7 +195,6 @@ const ArenaPage: React.FC = () => {
         >
           <InfoMatch />
         </Modal>
-
         {/* Modal chức năng từ drawer */}
         <Modal
           width={800}
